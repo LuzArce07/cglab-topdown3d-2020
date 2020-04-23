@@ -33,8 +33,6 @@ public class DialogTextBox : MonoBehaviour
         set => dialog.text = value;
     }*/
 
-    
-
     public string Message { get => message; set => message = value; }
 
     //IEnumerator 
