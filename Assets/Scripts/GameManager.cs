@@ -36,6 +36,17 @@ public class GameManager : MonoBehaviour
 
         //isInCombat = true;
         player.Anim.SetLayerWeight(1, 1);
+        player.weaponVisible(true);
+
+    }
+
+    public void StopCombat()
+    {
+
+        //isInCombat = true;
+        player.Anim.SetLayerWeight(0, 1);
+        player.Anim.SetLayerWeight(1, 0);
+        player.weaponVisible(false);
 
     }
 

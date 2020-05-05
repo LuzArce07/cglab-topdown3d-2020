@@ -10,11 +10,18 @@ public class Player : MonoBehaviour
 
     Animator anim;
 
+    [SerializeField]
+    GameObject weapon;
+
     void Awake() 
     {
         anim = GetComponent<Animator>();
     }
 
+    void Start()
+    {
+        weaponVisible(false);
+    }
     
 
     void Update()
@@ -33,5 +40,11 @@ public class Player : MonoBehaviour
     {
         get => new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
     }
-    public Animator Anim { get => anim; set => anim = value; }
+    public Animator Anim { get => anim; }
+
+    public void weaponVisible(bool visible)
+    {
+        weapon.SetActive(visible);
+    }
+
 }

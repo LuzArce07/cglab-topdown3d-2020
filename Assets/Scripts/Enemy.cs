@@ -13,8 +13,11 @@ public class Enemy : MonoBehaviour
 
     NavMeshAgent navMeshAgent;
 
-    [SerializeField]
+    
     Animator anim;
+
+    [SerializeField]
+    GameObject weapon;
 
 
 
@@ -22,6 +25,11 @@ public class Enemy : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         navMeshAgent = GetComponent<NavMeshAgent>();
+    }
+
+    void Start()
+    {
+        weaponVisible(false);
     }
 
     void Update()
@@ -35,6 +43,7 @@ public class Enemy : MonoBehaviour
             {
                 
                 GameManager.instance.IsInCombat = true;
+                
                 //GameManager.instance.StartCombat();
                 
             }
@@ -48,10 +57,20 @@ public class Enemy : MonoBehaviour
         {
             navMeshAgent.destination = transform.position;
 
+            if(StopCombat && GameManager.instance.IsInCombat)
+            {
+                GameManager.instance.IsInCombat = false;
+                anim.SetLayerWeight(0, 1);
+                anim.SetLayerWeight(1, 0);
+                GameManager.instance.StopCombat();
+                weaponVisible(false);
+            }
+
             if(GameManager.instance.IsInCombat)
             {
                 GameManager.instance.StartCombat();
                 anim.SetLayerWeight(1, 1);
+                weaponVisible(true);
             }
 
         }
@@ -67,14 +86,24 @@ public class Enemy : MonoBehaviour
 
     }
 
+    bool StopCombat
+    {
+        get => !(distanceBtwPlayer <= minDistance);
+    }
+
     bool Attack
     {
-        get => distanceBtwPlayer <= minDistance && distanceBtwPlayer > navMeshAgent.stoppingDistance;
+        get => !StopCombat && distanceBtwPlayer > navMeshAgent.stoppingDistance;
     }
 
     float distanceBtwPlayer
     {
         get => Vector3.Distance(this.transform.position, GameManager.instance.Player.transform.position);
+    }
+
+    void weaponVisible(bool visible)
+    {
+        weapon.SetActive(visible);
     }
 
 }
