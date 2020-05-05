@@ -31,6 +31,14 @@ public class Enemy : MonoBehaviour
         if(Attack)
         {
 
+            if(!GameManager.instance.IsInCombat)
+            {
+                
+                GameManager.instance.IsInCombat = true;
+                //GameManager.instance.StartCombat();
+                
+            }
+
             //transform.Translate(Vector3.forward * moveSpeed * Time.deltaTime);
             navMeshAgent.destination = GameManager.instance.Player.transform.position;
             transform.LookAt(GameManager.instance.Player.transform);
@@ -39,13 +47,24 @@ public class Enemy : MonoBehaviour
         else
         {
             navMeshAgent.destination = transform.position;
+
+            if(GameManager.instance.IsInCombat)
+            {
+                GameManager.instance.StartCombat();
+                anim.SetLayerWeight(1, 1);
+            }
+
         }
 
     }
 
     void LateUpdate()
     {
+
         anim.SetBool("run", Attack);
+
+        
+
     }
 
     bool Attack

@@ -10,9 +10,12 @@ public class Player : MonoBehaviour
 
     Animator anim;
 
-    void Awake(){
+    void Awake() 
+    {
         anim = GetComponent<Animator>();
     }
+
+    
 
     void Update()
     {
@@ -30,5 +33,5 @@ public class Player : MonoBehaviour
     {
         get => new Vector3(Input.GetAxis("Horizontal"), 0, Input.GetAxis("Vertical"));
     }
-
+    public Animator Anim { get => anim; set => anim = value; }
 }
